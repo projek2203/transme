@@ -1,0 +1,44 @@
+function home_post()
+    {
+        if (!isset($_SERVER['PHP_AUTH_USER'])) {
+            header("WWW-Authenticate: Basic realm=\"Private Area\"");
+            header("HTTP/1.0 401 Unauthorized");
+            return false;
+        }
+        $data = file_get_contents("php://input");
+        $dec_data = json_decode($data);
+        $saldo = $this->driver->saldouser($dec_data->id);
+        $app_settings = $this->driver->get_settings();
+        $condition = array(
+            'no_telepon' => $dec_data->no_telepon
+        );
+        $cek_login = $this->driver->get_data_driver($condition);
+
+        foreach ($app_settings as $item) {
+            if ($cek_login->num_rows() > 0) {
+                $message = array(
+                    'code' => '200',
+                    'message' => 'success',
+                    'saldo' => $saldo->row('saldo'),
+                    'currency' => $item['app_currency'],
+                    'currency_text' => $item['app_currency_text'],
+                    'app_aboutus' => $item['app_aboutus'],
+                    'app_contact' => $item['app_contact'],
+                    'app_website' => $item['app_website'],
+                    'map_key' => $item['map_key'],
+                    'jasaapp' => $item['jasaapp'],
+                    'duitku_status' => $item['duitku_status'],
+                    'app_email' => $item['app_email'],
+                    'isotp' => $item['isotp']
+                );
+                $this->response($message, 200);
+            } else {
+                $message = array(
+                    'code' => '201',
+                    'message' => 'failed',
+                    'data' => []
+                );
+                $this->response($message, 201);
+            }
+        }
+    }

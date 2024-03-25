@@ -1,0 +1,32 @@
+{
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "maswend2020/digiflazz",
+                "version": "dev-master",
+                "source": {
+                    "url": "https://github.com/Maswend2020/digiflazz",
+                    "type": "git",
+                    "reference": "origin/master"
+                }
+            }
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/OneSignal/onesignal-php-api.git"
+        }
+    ],
+    "require": {
+        "datatables/datatables": "^1.10",
+        "components/font-awesome": "^6.2",
+        "duitkupg/duitku-php": "dev-master",
+        "kartik-v/bootstrap-star-rating": "@dev",
+        "symfony/http-foundation": "5.4.28",
+        "guzzlehttp/guzzle": "^7.8",
+        "maswend2020/digiflazz": "dev-master",
+        "onesignal/onesignal-php-api": "*@dev"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

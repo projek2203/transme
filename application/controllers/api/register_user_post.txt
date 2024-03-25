@@ -1,0 +1,80 @@
+function register_user_post()
+    {
+        if (!isset($_SERVER['PHP_AUTH_USER'])) {
+            header("WWW-Authenticate: Basic realm=\"Private Area\"");
+            header("HTTP/1.0 401 Unauthorized");
+            return false;
+        }
+
+        $data = file_get_contents("php://input");
+        $dec_data = json_decode($data);
+
+        $email = $dec_data->email;
+        $phone = $dec_data->no_telepon;
+        $check_exist = $this->pelanggan->check_exist($email, $phone);
+        $check_exist_phone = $this->pelanggan->check_exist_phone($phone);
+        $check_exist_email = $this->pelanggan->check_exist_email($email);
+        if ($check_exist) {
+            $message = array(
+                'code' => '201',
+                'message' => 'email and phone number already exist',
+                'data' => []
+            );
+            $this->response($message, 201);
+        } else if ($check_exist_phone) {
+            $message = array(
+                'code' => '201',
+                'message' => 'phone already exist',
+                'data' => []
+            );
+            $this->response($message, 201);
+        } else if ($check_exist_email) {
+            $message = array(
+                'code' => '201',
+                'message' => 'email already exist',
+                'data' => []
+            );
+            $this->response($message, 201);
+        } else {
+            if ($dec_data->checked == "true") {
+               $image = $dec_data->fotopelanggan;
+                $namafoto = time() . '-' . rand(0, 99999) . ".jpg";
+                $path = "images/pelanggan/" . $namafoto;
+                file_put_contents($path, base64_decode($image));
+                $data_signup = array(
+                    'id' => 'P' . time(),
+                    'fullnama' => $dec_data->fullnama,
+                    'email' => $dec_data->email,
+                    'no_telepon' => $dec_data->no_telepon,
+                    'phone' => $dec_data->phone,
+                    'password' => sha1($dec_data->password),
+                    'tgl_lahir' => $dec_data->tgl_lahir,
+                    'countrycode' => $dec_data->countrycode,
+                    'fotopelanggan' => $namafoto,
+                    'token' => $dec_data->token,
+                
+                );
+                $signup = $this->pelanggan->signup($data_signup);
+                if ($signup) {
+                    $condition = array(
+                        'password' => sha1($dec_data->password),
+                        'email' => $dec_data->email
+                    );
+                    $datauser1 = $this->pelanggan->get_data_pelanggan($condition);
+                    $message = array(
+                        'code' => '200',
+                        'message' => 'success',
+                        'data' => $datauser1->result()
+                    );
+                    $this->response($message, 200);
+                } else {
+                    $message = array(
+                        'code' => '201',
+                        'message' => 'failed',
+                        'data' => []
+                    );
+                    $this->response($message, 201);
+                }
+            }
+        }
+    }

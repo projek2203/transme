@@ -1,0 +1,48 @@
+function login_post()
+    {
+        if (!isset($_SERVER['PHP_AUTH_USER'])) {
+            header("WWW-Authenticate: Basic realm=\"Private Area\"");
+            header("HTTP/1.0 401 Unauthorized");
+            return false;
+        }
+
+        $data = file_get_contents("php://input");
+        $decoded_data = json_decode($data);
+        $reg_id = array(
+            'token' => $decoded_data->token
+        );
+        $condition = array(
+            'password' => sha1($decoded_data->password),
+            'no_telepon' => $decoded_data->no_telepon
+        );
+        $check_banned = $this->pelanggan->check_banned($decoded_data->no_telepon);
+        if ($check_banned) {
+            $message = array(
+                'message' => 'banned',
+                'data' => []
+            );
+            $this->response($message, 200);
+        } else {
+            $cek_login = $this->pelanggan->get_data_pelanggan($condition);
+            $message = array();
+
+            if ($cek_login->num_rows() > 0) {
+                $upd_regid = $this->pelanggan->edit_profile($reg_id, $decoded_data->no_telepon);
+                $get_pelanggan = $this->pelanggan->get_data_pelanggan($condition);
+
+                $message = array(
+                    'code' => '200',
+                    'message' => 'found',
+                    'data' => $get_pelanggan->result()
+                );
+                $this->response($message, 200);
+            } else {
+                $message = array(
+                    'code' => '404',
+                    'message' => 'wrong phone or password',
+                    'data' => []
+                );
+                $this->response($message, 200);
+            }
+        }
+    }
