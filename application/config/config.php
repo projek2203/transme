@@ -8,19 +8,21 @@
 */
 defined('BASEPATH') OR exit('No direct script access allowed');
 $config['DEMO'] = TRUE;
-$fcmserver = 'AAAAnqxcpmw:APA91bGYlzgrR_zrP-wxEMFGnQrXin5F22VQbxU6Y0OGpQzB8GLrgOS8F4Jn8TwEF9wJqkUOqeg4bX1-3lTZTCmtoscyQJA3wUh_8r1SJa1kwTQHrboWEXTuXENtX75SQvQNrG2or2vC';
+$fcmserver = 'AAAAsnGEPBs:APA91bH1oC7pDeYFj8pmAD76iv1RPPOxJ5FtJYeVjmQM6FbYJAV2Hlq_Sy1v2_4_7idWd3sjQ6VFGyclJnMZRV9veYQX_qe29S65xS5EgYBXFj-maCrIHxVNXOq3JV1ADzwtx6Ndoaz0';
 $googleapi = 'AIzaSyBLrW7IzWzbII0Sex8zrRmCyAZRT7iWqUs';
 $config['app_name'] = 'Gojasa New';
+
 //$config['base_url'] = 'http://localhost/';
 $config['base_url'] = 'https://'.$_SERVER['HTTP_HOST'].'/';
 $config['app_api'] =    'AIzaSyBLrW7IzWzbII0Sex8zrRmCyAZRT7iWqUs';
-$config['fcm_server'] = 'AAAAnqxcpmw:APA91bGYlzgrR_zrP-wxEMFGnQrXin5F22VQbxU6Y0OGpQzB8GLrgOS8F4Jn8TwEF9wJqkUOqeg4bX1-3lTZTCmtoscyQJA3wUh_8r1SJa1kwTQHrboWEXTuXENtX75SQvQNrG2or2vC';
+$config['fcm_server'] = 'AAAAsnGEPBs:APA91bH1oC7pDeYFj8pmAD76iv1RPPOxJ5FtJYeVjmQM6FbYJAV2Hlq_Sy1v2_4_7idWd3sjQ6VFGyclJnMZRV9veYQX_qe29S65xS5EgYBXFj-maCrIHxVNXOq3JV1ADzwtx6Ndoaz0';
+
 //mobilepulsa
 $config['mp_server'] = 'https://prepaid.iak.dev/v1/legacy/index';
 $config['mp_user'] = '';
 $config['mp_apikey'] = '2526030b3e046f49';
 
-define('firebaseDb', 'https://kelana-fa363-default-rtdb.firebaseio.com/');
+define('firebaseDb', 'https://transme-versi2-default-rtdb.asia-southeast1.firebasedatabase.app/');
 define('keyfcm', $fcmserver);
 
 define('google_maps_api', $googleapi);
@@ -53,7 +55,7 @@ $config['allow_get_array'] = TRUE;
 
 $config['log_threshold'] = 1;
 
-$config['log_path'] = 'logpanel';
+$config['log_path'] = '';
 
 $config['log_file_extension'] = '';
 
